@@ -34,8 +34,8 @@ filename = ['Modal acoustic transfer vector approach in a FEM-BEM vibro-acoustic
 
 # todo:
 
--[ ] 添加中文论文下载
--[ ] 添加参考文献元素抓取
+-[ ]添加中文论文下载
+-[ ]添加参考文献元素抓取
 
 # reference
 
