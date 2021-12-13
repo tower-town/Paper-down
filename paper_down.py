@@ -1,10 +1,9 @@
-from asyncio.windows_events import NULL
-from os import name
-from typing import get_args
 import requests, re
 import time
 import asyncio
 import argparse
+
+from requests.models import ReadTimeoutError
 
 
 async def progress_bar(url, path):
@@ -49,7 +48,7 @@ async def progress_bar(url, path):
         print('Error!',e,'\n')
 
 
-async def paper_downing(paper_name):
+async def paper_downing(paper_name,export):
 
     header = {
         "Accept": "*/*",
@@ -91,34 +90,41 @@ async def paper_downing(paper_name):
                     if str(down_url[1]).startswith(r'https://moscow'):
                         down_url[1] = str(down_url[1]).replace(r'moscow', 'twin') # twin
 
-                    statuscode = requests.get(url=down_url[1], headers=header, timeout=3).status_code
-                    if statuscode != 200:
+                    try:
+                        statuscode = requests.get(url=down_url[1], headers=header, timeout=3).status_code
+                        if statuscode != 200:
                         # print(f"{paper_title[i]} doi:{doi}")
-                        continue
-                    else:
-                        print(f"{paper_title[i]} doi:{doi}")
-                        task = asyncio.create_task(progress_bar(str(down_url[1]), str(paper_title[i])))
-                        await task                        
-                        break
+                            continue
+                        else:
+                            print(f"{paper_title[i]} doi:{doi}")
+                            task = asyncio.create_task(progress_bar(str(down_url[1]), export+str(paper_title[i])),)
+                            await task                        
+                            break
+                    except ReadTimeoutError:
+                        print(statuscode)
+
+                    finally :
+                        if statuscode != 200:
+                            continue
                
 
-async def main(x1, x2, x3, x4):
+async def main(x1, x2, x3, x4,arg):
 
     await asyncio.gather(
-        paper_downing(x1),
-        paper_downing(x2),
-        paper_downing(x3),
-        paper_downing(x4)
+        paper_downing(x1,arg),
+        paper_downing(x2,arg),
+        paper_downing(x3,arg),
+        paper_downing(x4,arg)
     )
 
 filename = list()
 parser = argparse.ArgumentParser()
-parser.add_argument('--name','-n',type=str,help='paper title')
-parser.add_argument('--path','-p',type=str,help='file of paper list')
+group = parser.add_mutually_exclusive_group(required=True)
+group.add_argument('--name','-n',type=str,help='paper title')
+group.add_argument('--path','-p',type=str,help='input file of paper list')
+parser.add_argument('--export','-e',help='export path of download paper',default='./')
 args = parser.parse_args()
 
-if args.name ==None and args.path == None:
-    raise('at least one parameter of name and path')
 
 if args.path != None:
     with open(str(args.path),mode='r',encoding='utf-8') as file:
@@ -129,7 +135,7 @@ if args.path != None:
 if args.name != None:
    filename.append(str(args.name).strip())
 
-print(filename)
+
 step = 4
 box = [filename[i:i+step] for i in range(0, len(filename), step)]
 
@@ -140,5 +146,5 @@ def gf(a=0, b=0, c=0, d=0):
 print('begin')
 for bl in box:
     bl = gf(*bl)
-    asyncio.run(main(*bl))
+    asyncio.run(main(*bl,arg=args.export))
 print('finish')

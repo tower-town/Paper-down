@@ -15,17 +15,18 @@
 ## 简单演示/usage
 
 ```bash
-usage: paper_down.py [-h] [--name NAME] [--path PATH]  
+usage: paper_down.py [-h] (--name NAME | --path PATH) [--export EXPORT]
 
 optional arguments:
-  -h, --help            show this help message and exit
-  --name NAME, -n NAME  paper title
-  --path PATH, -p PATH  file of paper list
+  -h, --help                  show this help message and exit
+  --name NAME, -n NAME        paper title
+  --path PATH, -p PATH        input file of paper list
+  --export EXPORT, -e EXPORT  export path of download paper
 ```
 输入论文列表
 
 ```vim
-# papper title as list
+# papper title as list # The comment will be ignore.
 
 Modal acoustic transfer vector approach in a FEM-BEM vibro-acoustic analysis
 Vibroacoustic optimization using a statistical energy analysis model
@@ -41,4 +42,5 @@ Active sound quality control of engine induced cavity noise
 # reference
 
 [python 命令行参数](https://tendcode.com/article/python-shell/)
+[argparse](https://docs.python.org/zh-cn/3/library/argparse.html)
 在下载进度条是参考`CSND`的某一位博主的（具体是谁给忘了）
