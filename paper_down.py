@@ -3,6 +3,7 @@ import time
 import asyncio
 
 
+# cmd pasre :https://tendcode.com/article/python-shell/
 async def progress_bar(url, path):
     header = {
         "Accept": "*/*",
@@ -10,11 +11,11 @@ async def progress_bar(url, path):
 
     print(path, '\n', url)
     file_name = path + '.pdf'
-    start = time.time()  # 下载开始时间
+    start = time.time()  
     response = requests.get(url=url, headers=header, stream=True)
-    size = 0    # 初始化已下载大小
-    chunk_size = 1024  # 每次下载的数据大小
-    content_size = int(response.headers['content-length'])  # 下载文件总大小
+    size = 0    
+    chunk_size = 1024  
+    content_size = int(response.headers['content-length'])  
     try:
         if response.status_code != 200:
             for i in range(5):
@@ -25,9 +26,8 @@ async def progress_bar(url, path):
         if response.status_code != 200:
             print('maybe invalid  download link')
 
-        if response.status_code == 200:  # 判断是否响应成功
+        if response.status_code == 200:  
             sized = content_size / chunk_size / 1024
-            # 开始下载，显示下载文件大小
             print('Start download,[File size]:{size:.2f} MB'.format(size=sized))
             with open(file_name, 'wb') as file:
                 for data in response.iter_content(chunk_size=chunk_size):
@@ -37,11 +37,11 @@ async def progress_bar(url, path):
                     rate = float(size / content_size * 100)
                     a = '>'*numstart
                     b = '-'*(50-numstart)
-                    # 显示进度条
                     print('\r'+'[下载进度]:%s%s\t%.2f%%' % (a,b, rate), end=' ')
 
-        end = time.time()   # 下载结束时间
-        print('Download completed! times: %.2f秒' % (end - start))  # 输出下载用时时间
+        end = time.time()   
+        print('Download completed! times: %.2f秒' % (end - start))
+
     except Exception as e:
         print('Error!',e,'\n')
 
