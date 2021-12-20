@@ -15,6 +15,7 @@ Sessionx.vim
 *~
 *.pdf
 *.txt
+test.py
 
 # Auto-generated tag files
 tags
