@@ -3,7 +3,7 @@ import os
 
 def argument():
     
-    filename = list()
+    filename = []
     parser = argparse.ArgumentParser()
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('--name','-n',type=str,help='paper title')
@@ -15,7 +15,7 @@ def argument():
     if args.path != None:
         with open(str(args.path),mode='r',encoding='utf-8') as file:
             filename = filter(lambda index :(not (str(index).startswith('#') or str(index) == '\n')),file.readlines())
-            
+
     if args.name != None:
         filename.append(str(args.name).strip())
 
