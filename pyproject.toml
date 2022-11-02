@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "paper-down"
+version = "0.1.0"
+description = "download paper at the command line"
+authors = ["tower-town <FibonacciNuture@foxmai.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+rich = "^11.2.0"
+thefuzz = "^0.19.0"
+requests = "^2.27.1"
+bs4 = "^0.0.1"
+cloup = "^0.13.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[[tool.poetry.source]]
+name = "aliyun"
+url = "http://mirrors.aliyun.com/pypi/simple/"
