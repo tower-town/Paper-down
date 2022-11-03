@@ -2,7 +2,7 @@
 name = "paper-down"
 version = "0.1.0"
 description = "download paper at the command line"
-authors = ["tower-town <FibonacciNuture@foxmai.com>"]
+authors = ["tower-town <FibonacciNuture@foxmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
